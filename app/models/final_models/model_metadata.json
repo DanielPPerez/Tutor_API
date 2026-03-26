@@ -1,0 +1,41 @@
+{
+  "project": "Tutor Inteligente OCR Espanol",
+  "version": "2.0.0",
+  "date": "2026-03",
+  "classifier": {
+    "model": "efficientnet_b2",
+    "num_classes": 107,
+    "img_size": 64,
+    "best_val_acc": 0.5267,
+    "input": "image",
+    "output": "logits",
+    "preprocessing": {
+      "resize": [
+        64,
+        64
+      ],
+      "normalize": {
+        "mean": [
+          0.485,
+          0.456,
+          0.406
+        ],
+        "std": [
+          0.229,
+          0.224,
+          0.225
+        ]
+      }
+    }
+  },
+  "detector": {
+    "model": "yolov8n.pt",
+    "img_size": 640,
+    "nc": 1,
+    "class": "trazo"
+  },
+  "mlflow_uri": "/kaggle/working/mlruns",
+  "onnx_opset": 17,
+  "recommended_clf": "mobilenet_classifier_int8.onnx",
+  "recommended_det": "yolo_detector.onnx"
+}

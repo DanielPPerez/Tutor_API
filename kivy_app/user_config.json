@@ -1,0 +1,7 @@
+{
+  "api_url": "http://127.0.0.1:8000",
+  "last_level": "intermedio",
+  "last_char": "B",
+  "haptic_enabled": true,
+  "sound_enabled": true
+}

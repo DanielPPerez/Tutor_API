@@ -1,0 +1,6 @@
+# kivy_app/requirements.txt  — entorno de desarrollo en escritorio
+kivy==2.3.0
+requests>=2.31.0
+Pillow>=10.0.0
+plyer>=2.1.0
+

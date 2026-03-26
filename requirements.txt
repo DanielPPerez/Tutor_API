@@ -1,0 +1,59 @@
+# =============================================================================
+# requirements.txt — Tutor Inteligente de Caligrafía
+# Versiones fijadas a 15/03/2026 (ver PLAN_IMPLEMENTACIONES_ESTADIA.md § 3.0)
+# =============================================================================
+
+# ── API y servidor ─────────────────────────────────────────────────────────
+fastapi
+uvicorn
+python-multipart
+
+# ── Visión y procesamiento de imágenes ────────────────────────────────────
+# numpy < 2.0 para compatibilidad con PyTorch / ONNX
+numpy==1.26.4
+opencv-python-headless==4.9.0.80
+scikit-image
+scipy
+matplotlib
+pillow
+pillow-avif-plugin==1.4.3
+
+# ── Inferencia ONNX (producción y API) ────────────────────────────────────
+# onnx 1.16.x — compatible con opset 17
+onnx>=1.16.0
+# onnxruntime 1.17.x — inferencia CPU/GPU
+onnxruntime==1.17.1
+onnxscript
+
+# ── PyTorch — versión única para todo el pipeline ─────────────────────────
+# torch 2.2.0 / torchvision 0.17.0 (misma minor)
+# NOTA: en Kaggle/Colab usar las versiones preinstaladas del entorno
+#       si hay conflicto de CUDA; cambiar a torch==2.1.2+torchvision==0.16.2
+torch==2.2.0
+torchvision==0.17.0
+
+# ── Detector YOLO ─────────────────────────────────────────────────────────
+# ultralytics >=8.0.0,<9.0.0 (YOLOv8n, export ONNX)
+ultralytics>=8.0.0,<9.0.0
+
+# ── Clasificador — backbone (timm) ────────────────────────────────────────
+# timm 0.9.x — EfficientNet-B2 y otros backbones
+timm==0.9.16
+
+# ── Augmentaciones ────────────────────────────────────────────────────────
+albumentations==1.3.1
+
+# ── Experimentos y reproducibilidad ───────────────────────────────────────
+# mlflow 2.10.x — registro de runs, métricas y artefactos
+mlflow==2.10.2
+tqdm
+
+# ── Export TF → ONNX (legacy; solo si se usan modelos TF anteriores) ──────
+# ADVERTENCIA: tensorflow puede entrar en conflicto con torch en el mismo
+# entorno. Instalar en entorno separado si no se necesita la ruta TF.
+# tensorflow>=2.10.0
+# tf2onnx
+
+# ── Descarga de datasets ───────────────────────────────────────────────────
+kagglehub
+requests

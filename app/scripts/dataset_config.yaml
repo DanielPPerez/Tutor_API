@@ -1,0 +1,5 @@
+names:
+  0: trazo
+path: E:\Estadia\data\processed\yolo_dataset
+train: images/train
+val: images/train

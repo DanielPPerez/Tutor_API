@@ -1,0 +1,6 @@
+path: ./data/processed/yolo_dataset
+train: images/train
+val: images/val # Aquí pones las imágenes de NIST reales
+
+names:
+  0: trazo

@@ -1,0 +1,92 @@
+[
+  {
+    "true": "s",
+    "pred": "S",
+    "count": 100,
+    "type": "case"
+  },
+  {
+    "true": "M",
+    "pred": "m",
+    "count": 98,
+    "type": "case"
+  },
+  {
+    "true": "C",
+    "pred": "c",
+    "count": 95,
+    "type": "case"
+  },
+  {
+    "true": "V",
+    "pred": "v",
+    "count": 89,
+    "type": "case"
+  },
+  {
+    "true": "F",
+    "pred": "f",
+    "count": 86,
+    "type": "case"
+  },
+  {
+    "true": "1",
+    "pred": "l",
+    "count": 77,
+    "type": "shape"
+  },
+  {
+    "true": "k",
+    "pred": "K",
+    "count": 71,
+    "type": "case"
+  },
+  {
+    "true": "U",
+    "pred": "u",
+    "count": 66,
+    "type": "case"
+  },
+  {
+    "true": "O",
+    "pred": "o",
+    "count": 65,
+    "type": "case"
+  },
+  {
+    "true": "O",
+    "pred": "0",
+    "count": 63,
+    "type": "shape"
+  },
+  {
+    "true": "c",
+    "pred": "C",
+    "count": 61,
+    "type": "case"
+  },
+  {
+    "true": "P",
+    "pred": "p",
+    "count": 61,
+    "type": "case"
+  },
+  {
+    "true": "S",
+    "pred": "s",
+    "count": 60,
+    "type": "case"
+  },
+  {
+    "true": "0",
+    "pred": "o",
+    "count": 59,
+    "type": "shape"
+  },
+  {
+    "true": "y",
+    "pred": "Y",
+    "count": 57,
+    "type": "case"
+  }
+]

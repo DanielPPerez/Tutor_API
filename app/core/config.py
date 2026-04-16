@@ -79,9 +79,9 @@ DILATE_AFTER_ROI      = 2
 # ─────────────────────────────────────────────────────────────────────────────
 # RUTAS DE MODELOS ONNX
 # ─────────────────────────────────────────────────────────────────────────────
-YOLO_MODEL_PATH       = "app/models/final_models/yolo_detector.onnx"
-MOBILENET_MODEL_PATH  = "app/models/final_models/mobilenet_classifier.onnx"
-CLASS_MAP_PATH        = "app/models/tutor_inteligente_models/char_map.json"   # generado por train_classifier.py
+YOLO_MODEL_PATH       = "app/models/classifier_artifacts/best_detector.onnx"
+MOBILENET_MODEL_PATH  = "app/models/classifier_artifacts/best_classifier.onnx"
+CLASS_MAP_PATH        = "app/models/char_map.json"   # generado por train_classifier.py
 
 # ─────────────────────────────────────────────────────────────────────────────
 # DETECCION / CLASIFICACION

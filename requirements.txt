@@ -21,8 +21,8 @@ pillow-avif-plugin==1.4.3
 # ── Inferencia ONNX (producción y API) ────────────────────────────────────
 # onnx 1.16.x — compatible con opset 17
 onnx>=1.16.0
-# onnxruntime 1.17.x — inferencia CPU/GPU
-onnxruntime==1.17.1
+# + onnxruntime==1.18.1— inferencia CPU/GPU
+onnxruntime==1.18.1
 onnxscript
 
 # ── PyTorch — versión única para todo el pipeline ─────────────────────────

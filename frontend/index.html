@@ -1,0 +1,1883 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutor Inteligente de Caligrafía — Aprendia Edge</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --red-pantone: #a12336;
+            --red-hover: #b82b40;
+            --red-light: rgba(161, 35, 54, 0.08);
+            --black: #111215;
+            --green-teal: #009887;
+            --green-teal-hover: #00b39f;
+            --green-light: rgba(0, 152, 135, 0.1);
+            --beige: #d3c2b3;
+            --beige-dark: #b8a391;
+            --beige-light: #f7f3ef;
+            --white: #ffffff;
+            
+            /* Dark Dashboard Theme for Results */
+            --dark-bg: #090d13;
+            --dark-card: #0f151f;
+            --dark-card-2: #16202e;
+            --dark-border: #1f2c3d;
+            --dark-border-hover: #2d3e54;
+            --dark-text: #e2e8f0;
+            --dark-muted: #8292a6;
+
+            --mono: 'DM Mono', monospace;
+            --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --display: 'Syne', sans-serif;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--sans);
+            background-color: var(--beige-light);
+            color: var(--black);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── Header ─────────────────────────────────────────── */
+        header {
+            background-color: var(--black);
+            color: var(--white);
+            padding: 22px 28px;
+            border-bottom: 5px solid var(--red-pantone);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        .header-brand h1 {
+            margin: 0;
+            color: var(--white);
+            font-size: 22px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.01em;
+        }
+
+        .header-brand h1 span.badge-edge {
+            background: var(--red-pantone);
+            color: var(--white);
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .header-brand p {
+            margin: 5px 0 0 0;
+            color: var(--beige);
+            font-size: 13px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .api-selector-wrap {
+            display: flex;
+            align-items: center;
+            background: #1a1c22;
+            border: 1px solid #2e323d;
+            border-radius: 8px;
+            padding: 4px 8px;
+            gap: 6px;
+        }
+
+        .api-selector-wrap label {
+            font-size: 11px;
+            color: var(--beige);
+            font-family: var(--mono);
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .api-selector-wrap select {
+            background: transparent;
+            color: var(--white);
+            border: none;
+            font-size: 11px;
+            font-family: var(--mono);
+            outline: none;
+            cursor: pointer;
+            padding: 2px;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: #1a1c22;
+            border: 1px solid #2e323d;
+            border-radius: 20px;
+            padding: 5px 12px;
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--beige);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .status-pill:hover {
+            border-color: var(--green-teal);
+            color: var(--white);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ffb020;
+            display: inline-block;
+        }
+
+        .status-dot.online {
+            background: #00d29f;
+            box-shadow: 0 0 8px rgba(0, 210, 159, 0.6);
+        }
+
+        .status-dot.offline {
+            background: #f87171;
+            box-shadow: 0 0 8px rgba(248, 113, 113, 0.6);
+        }
+
+        /* ── Render Delay Notice Banner ────────────────────────── */
+        #render-banner {
+            background: linear-gradient(90deg, var(--red-pantone), #7c1a29);
+            color: var(--white);
+            text-align: center;
+            padding: 9px 15px;
+            font-size: 13px;
+            font-weight: 500;
+            display: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* ── Main Container ─────────────────────────────────── */
+        .container {
+            max-width: 1200px;
+            margin: 28px auto 60px;
+            padding: 0 20px;
+        }
+
+        .main-card {
+            background: var(--white);
+            padding: 28px;
+            border-radius: 12px;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.06);
+            border-top: 5px solid var(--green-teal);
+        }
+
+        /* ── Tabs Navigation ────────────────────────────────── */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+            border-bottom: 2px solid var(--beige);
+            padding-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: var(--beige-light);
+            border: 1px solid var(--beige);
+            padding: 10px 22px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 6px;
+            color: var(--black);
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-btn:hover {
+            background: var(--beige);
+            transform: translateY(-1px);
+        }
+
+        .tab-btn.active {
+            background: var(--red-pantone);
+            color: var(--white);
+            border-color: var(--red-pantone);
+            box-shadow: 0 4px 12px rgba(161, 35, 54, 0.25);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Forms & Input Grid ─────────────────────────────── */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 18px;
+            margin-bottom: 20px;
+            background: #faf8f5;
+            padding: 22px;
+            border-radius: 10px;
+            border: 1px solid #ebdcd0;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--black);
+        }
+
+        label small {
+            font-weight: normal;
+            color: #666;
+            margin-left: 4px;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1.5px solid var(--beige);
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            background: var(--white);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input[type="text"]:focus, select:focus {
+            outline: none;
+            border-color: var(--green-teal);
+            box-shadow: 0 0 0 3px rgba(0, 152, 135, 0.15);
+        }
+
+        /* Custom File Upload Button & Preview */
+        .file-upload-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .file-picker-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 16px;
+            background: var(--white);
+            border: 1.5px dashed var(--green-teal);
+            border-radius: 6px;
+            color: var(--green-teal);
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-picker-btn:hover {
+            background: var(--green-light);
+        }
+
+        .file-picker-btn.has-file {
+            border-style: solid;
+            background: #f0faf8;
+            color: #00796b;
+        }
+
+        input[type="file"] {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            overflow: hidden;
+        }
+
+        .upload-thumb {
+            width: 44px;
+            height: 44px;
+            object-fit: contain;
+            border-radius: 6px;
+            border: 1px solid var(--beige);
+            background: #000;
+            display: none;
+            flex-shrink: 0;
+        }
+
+        button.submit-btn {
+            background-color: var(--green-teal);
+            color: var(--white);
+            border: none;
+            padding: 13px 24px;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 3px 10px rgba(0, 152, 135, 0.25);
+        }
+
+        button.submit-btn:hover {
+            background-color: var(--green-teal-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 5px 14px rgba(0, 152, 135, 0.35);
+        }
+
+        button.submit-btn:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        button.submit-btn.btn-red {
+            background-color: var(--red-pantone);
+            box-shadow: 0 3px 10px rgba(161, 35, 54, 0.25);
+        }
+
+        button.submit-btn.btn-red:hover {
+            background-color: var(--red-hover);
+            box-shadow: 0 5px 14px rgba(161, 35, 54, 0.35);
+        }
+
+        /* ── Loading Spinner ────────────────────────────────── */
+        .loading-state {
+            display: none;
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--green-teal);
+            background: #faf8f5;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px dashed var(--green-teal);
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            border: 3px solid rgba(0, 152, 135, 0.2);
+            border-top-color: var(--green-teal);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ══════════════════════════════════════════════════════
+           DASHBOARD DE RESULTADOS (DISEÑO SOLICITADO)
+           ══════════════════════════════════════════════════════ */
+        .results-container {
+            display: none;
+            margin-top: 28px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 20px;
+            align-items: start;
+        }
+
+        @media (max-width: 992px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Dark Card Style for AI Visualizer */
+        .dash-card {
+            background: var(--dark-bg);
+            border: 1px solid var(--dark-border);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+            margin-bottom: 20px;
+            color: var(--dark-text);
+        }
+
+        .dash-card-header {
+            padding: 14px 18px;
+            background: var(--dark-card);
+            border-bottom: 1px solid var(--dark-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .dash-card-title {
+            font-family: var(--sans);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--beige);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dash-card-title svg {
+            color: var(--green-teal);
+        }
+
+        .dash-card-body {
+            padding: 18px;
+        }
+
+        /* ── Image Strip (3 Image Tiles) ────────────────────── */
+        .img-strip {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        @media (max-width: 600px) {
+            .img-strip {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .img-tile {
+            background: #000000;
+            border: 1px solid var(--dark-border);
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            position: relative;
+        }
+
+        .img-tile:hover {
+            border-color: var(--green-teal);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 152, 135, 0.2);
+        }
+
+        .img-tile img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: contain;
+            display: block;
+            background: #000000;
+        }
+
+        .img-tile-label {
+            font-family: var(--mono);
+            font-size: 10.5px;
+            letter-spacing: 0.05em;
+            color: var(--dark-muted);
+            text-align: center;
+            padding: 7px 6px;
+            background: var(--dark-card-2);
+            border-top: 1px solid var(--dark-border);
+            font-weight: 500;
+        }
+
+        .zoom-hint {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: rgba(0,0,0,0.6);
+            color: var(--dark-muted);
+            border-radius: 4px;
+            padding: 2px 4px;
+            font-size: 10px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .img-tile:hover .zoom-hint {
+            opacity: 1;
+        }
+
+        /* ── Meta Tags Strip ────────────────────────────────── */
+        .meta-strip {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px solid var(--dark-border);
+        }
+
+        .meta-tag {
+            font-family: var(--mono);
+            font-size: 11px;
+            padding: 4px 10px;
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border);
+            border-radius: 4px;
+            color: var(--beige);
+            letter-spacing: 0.02em;
+        }
+
+        .meta-tag.highlight {
+            border-color: var(--green-teal);
+            color: #00e5c0;
+            background: rgba(0, 152, 135, 0.08);
+        }
+
+        /* ── Metrics Breakdown Table ────────────────────────── */
+        .metrics-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .metrics-table thead tr {
+            border-bottom: 1px solid var(--dark-border);
+        }
+
+        .metrics-table th {
+            font-family: var(--mono);
+            font-size: 10.5px;
+            letter-spacing: 0.1em;
+            color: var(--dark-muted);
+            text-transform: uppercase;
+            padding: 8px 10px;
+            text-align: left;
+            font-weight: 500;
+        }
+
+        .metrics-table tbody tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            transition: background 0.15s;
+        }
+
+        .metrics-table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .metrics-table td {
+            padding: 10px;
+            vertical-align: middle;
+        }
+
+        .metric-name {
+            color: var(--dark-text);
+            font-weight: 600;
+        }
+
+        .metric-name small {
+            display: block;
+            font-family: var(--sans);
+            font-size: 11px;
+            color: var(--dark-muted);
+            margin-top: 2px;
+            font-weight: normal;
+        }
+
+        .metric-bar-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 170px;
+        }
+
+        .metric-bar-bg {
+            flex: 1;
+            height: 6px;
+            background: #1a2533;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .metric-bar-fill {
+            height: 100%;
+            border-radius: 999px;
+            transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .metric-val {
+            font-family: var(--mono);
+            font-size: 12px;
+            min-width: 44px;
+            text-align: right;
+            font-weight: 600;
+        }
+
+        .weight-tag {
+            font-family: var(--mono);
+            font-size: 10.5px;
+            color: var(--beige);
+            background: var(--dark-card-2);
+            border: 1px solid var(--dark-border);
+            border-radius: 4px;
+            padding: 2px 7px;
+            display: inline-block;
+        }
+
+        /* ── Score Panel (Right Column) ─────────────────────── */
+        .score-panel {
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+
+        .score-hero {
+            background: linear-gradient(160deg, #111e2b, #0c1520);
+            border-bottom: 1px solid var(--dark-border);
+            padding: 26px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .score-hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 15%, rgba(0, 152, 135, 0.15), transparent 75%);
+            pointer-events: none;
+        }
+
+        .score-label {
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--beige);
+            font-weight: 500;
+        }
+
+        .score-number {
+            font-family: var(--display);
+            font-size: 4.6rem;
+            font-weight: 800;
+            line-height: 1.05;
+            margin: 6px 0 2px;
+            color: #00d29f;
+            text-shadow: 0 0 24px rgba(0, 210, 159, 0.35);
+        }
+
+        .score-level-badge {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--white);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--dark-border);
+            border-radius: 20px;
+            padding: 3px 12px;
+            margin-top: 4px;
+        }
+
+        .score-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Recognized Character Card */
+        .detected-box {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--dark-bg);
+            border: 1px solid var(--dark-border);
+            border-radius: 8px;
+            padding: 12px 14px;
+        }
+
+        .det-char {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            background: var(--dark-card-2);
+            border: 1px solid var(--green-teal);
+            color: #00d29f;
+            font-family: var(--display);
+            font-size: 26px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .det-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .det-info strong {
+            display: block;
+            font-size: 11px;
+            color: var(--dark-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 2px;
+        }
+
+        .det-info .det-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--dark-text);
+        }
+
+        .conf-bar {
+            height: 4px;
+            background: #1e2c3d;
+            border-radius: 999px;
+            margin-top: 6px;
+            overflow: hidden;
+        }
+
+        .conf-bar-fill {
+            height: 100%;
+            background: var(--green-teal);
+            border-radius: 999px;
+            transition: width 0.6s ease;
+        }
+
+        /* Mini Stats */
+        .mini-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .mini-stat {
+            background: var(--dark-bg);
+            border: 1px solid var(--dark-border);
+            border-radius: 8px;
+            padding: 10px 8px;
+            text-align: center;
+        }
+
+        .mini-stat-label {
+            display: block;
+            font-family: var(--mono);
+            font-size: 9.5px;
+            color: var(--dark-muted);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .mini-stat-val {
+            font-family: var(--mono);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        /* Feedback Callout Box */
+        .feedback-box {
+            background: rgba(0, 152, 135, 0.08);
+            border-left: 4px solid var(--green-teal);
+            border-radius: 0 8px 8px 0;
+            padding: 12px 14px;
+            font-size: 13px;
+            color: #d1fae5;
+            line-height: 1.45;
+        }
+
+        .feedback-box strong {
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--green-teal);
+            margin-bottom: 4px;
+        }
+
+        /* ── Plana Overview & Grid ──────────────────────────── */
+        .plana-summary-strip {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .plana-stat-card {
+            background: var(--dark-bg);
+            border: 1px solid var(--dark-border);
+            border-radius: 8px;
+            padding: 14px;
+            text-align: center;
+        }
+
+        .plana-stat-val {
+            font-family: var(--display);
+            font-size: 26px;
+            font-weight: 800;
+            color: #00d29f;
+        }
+
+        .plana-stat-label {
+            font-family: var(--mono);
+            font-size: 10px;
+            color: var(--beige);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-top: 4px;
+        }
+
+        .text-recon-card {
+            background: var(--dark-bg);
+            border: 1px solid var(--dark-border);
+            border-radius: 8px;
+            padding: 14px 18px;
+            margin-bottom: 20px;
+        }
+
+        .text-recon-card .recon-label {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--dark-muted);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .text-recon-card .recon-phrase {
+            font-family: var(--mono);
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 0.05em;
+        }
+
+        .plana-chars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+        }
+
+        .plana-char-card {
+            background: var(--dark-bg);
+            border: 1px solid var(--dark-border);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .plana-char-card:hover {
+            border-color: var(--green-teal);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .plana-char-card.selected {
+            border-color: var(--red-pantone);
+            box-shadow: 0 0 0 2px var(--red-pantone);
+        }
+
+        .plana-char-header {
+            padding: 6px 10px;
+            background: var(--dark-card-2);
+            border-bottom: 1px solid var(--dark-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 11px;
+        }
+
+        .plana-char-img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: contain;
+            background: #000;
+            display: block;
+        }
+
+        .plana-char-footer {
+            padding: 8px 10px;
+            background: var(--dark-card);
+            border-top: 1px solid var(--dark-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 12px;
+        }
+
+        /* ── Collapsible JSON Raw ───────────────────────────── */
+        .raw-json-wrap {
+            margin-top: 16px;
+        }
+
+        .btn-raw-toggle {
+            background: transparent;
+            border: 1px solid var(--dark-border);
+            border-radius: 6px;
+            color: var(--dark-muted);
+            font-family: var(--mono);
+            font-size: 11px;
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-raw-toggle:hover {
+            color: var(--dark-text);
+            border-color: var(--green-teal);
+        }
+
+        .raw-json-pre {
+            display: none;
+            margin-top: 10px;
+            background: #06090e;
+            border: 1px solid var(--dark-border);
+            border-radius: 8px;
+            padding: 14px;
+            font-family: var(--mono);
+            font-size: 11px;
+            color: #8be9fd;
+            max-height: 280px;
+            overflow: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        /* ── Lightbox Modal for Full-res Image ──────────────── */
+        .lightbox-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.88);
+            backdrop-filter: blur(4px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .lightbox-content {
+            max-width: 90vw;
+            max-height: 85vh;
+            background: #000;
+            border: 2px solid var(--green-teal);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            animation: zoomIn 0.2s ease;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.92); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .lightbox-content img {
+            max-width: 80vw;
+            max-height: 75vh;
+            object-fit: contain;
+            display: block;
+        }
+
+        .lightbox-footer {
+            padding: 10px 16px;
+            background: #111;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family: var(--mono);
+            font-size: 13px;
+        }
+
+        .lightbox-close {
+            background: var(--red-pantone);
+            color: #fff;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="render-banner">⚡ Conectando y verificando servicio backend (evitando delay de Render)...</div>
+
+    <header>
+        <div class="header-brand">
+            <h1>
+                Tutor Inteligente de Caligrafía
+                <span class="badge-edge">Aprendia Edge</span>
+            </h1>
+            <p>Evaluación biomecánica y métricas de trazos mediante IA (Soporta ñ, ch, mayúsculas, minúsculas y acentos)</p>
+        </div>
+
+        <div class="header-actions">
+            <div class="api-selector-wrap" title="Selecciona la URL del backend">
+                <label for="apiSelect">API:</label>
+                <select id="apiSelect" onchange="changeApiUrl(this.value)">
+                    <option value="https://tutor-api-bn0p.onrender.com" selected>Render Cloud</option>
+                    <option value="http://localhost:8000">Local (8000)</option>
+                    <option value="http://127.0.0.1:8000">127.0.0.1</option>
+                </select>
+            </div>
+
+            <div class="status-pill" id="statusPill" onclick="checkApiStatus()" title="Haz clic para verificar conexión">
+                <span class="status-dot" id="statusDot"></span>
+                <span id="statusText">Verificando...</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-card">
+            <!-- PESTAÑAS -->
+            <div class="tabs">
+                <button class="tab-btn active" id="btn-tab-single" onclick="switchTab('single')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                    Evaluar Carácter Individual
+                </button>
+                <button class="tab-btn" id="btn-tab-plana" onclick="switchTab('plana')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/></svg>
+                    Evaluar Plana Completa
+                </button>
+            </div>
+
+            <!-- ══════════════════════════════════════════════════════
+                 TAB 1: EVALUAR CARÁCTER INDIVIDUAL
+                 ══════════════════════════════════════════════════════ -->
+            <div id="tab-single" class="tab-content active">
+                <form id="form-single" onsubmit="evaluateSingle(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="target_char">Carácter esperado <small>(ej: a, C, ñ, ch, é)</small>:</label>
+                            <input type="text" id="target_char" name="target_char" maxlength="5" required value="C" style="font-weight:bold; font-size:16px;">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="level_single">Nivel de tolerancia pedagógica:</label>
+                            <select id="level_single" name="level">
+                                <option value="principiante">Principiante (tolerancia alta)</option>
+                                <option value="intermedio" selected>Intermedio (estándar)</option>
+                                <option value="avanzado">Avanzado (alta exigencia)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label>Fotografía del trazo:</label>
+                            <div class="file-upload-box">
+                                <label class="file-picker-btn" for="file_single" id="file_single_label">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                    <span id="file_single_text">Seleccionar fotografía del carácter...</span>
+                                </label>
+                                <input type="file" id="file_single" name="file" accept="image/*" required onchange="handleFileChange(this, 'file_single_label', 'file_single_text', 'thumb_single')">
+                                <img id="thumb_single" class="upload-thumb" alt="Preview">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="btn-submit-single" class="submit-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                        Evaluar Trazo con IA
+                    </button>
+                </form>
+
+                <div id="loading-single" class="loading-state">
+                    <div class="spinner"></div>
+                    <div><strong>Procesando con IA...</strong></div>
+                    <div style="font-size:12px; color:#666; margin-top:4px;">Normalizando trazo, calculando Distance Transform y analizando topología</div>
+                </div>
+
+                <!-- DASHBOARD DE RESULTADOS (TAB 1) -->
+                <div id="results-single" class="results-container">
+                    <div class="dashboard-grid">
+                        <!-- COLUMNA IZQUIERDA -->
+                        <div>
+                            <!-- Vistas del Trazo -->
+                            <div class="dash-card">
+                                <div class="dash-card-header">
+                                    <span class="dash-card-title">
+                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                                        Vistas del Trazo y Procesamiento
+                                    </span>
+                                    <span style="font-size:11px; font-family:var(--mono); color:var(--dark-muted);">Click en imagen para ampliar</span>
+                                </div>
+                                <div class="dash-card-body">
+                                    <div class="img-strip">
+                                        <div class="img-tile" onclick="openLightbox('img-single-student', 'Trazo Alumno · Normalizado')">
+                                            <span class="zoom-hint">🔍 Zoom</span>
+                                            <img id="img-single-student" src="" alt="Trazo Alumno">
+                                            <div class="img-tile-label">Alumno · Normalizado</div>
+                                        </div>
+                                        <div class="img-tile" onclick="openLightbox('img-single-template', 'Plantilla · Esqueleto')">
+                                            <span class="zoom-hint">🔍 Zoom</span>
+                                            <img id="img-single-template" src="" alt="Plantilla Guía">
+                                            <div class="img-tile-label">Plantilla · Esqueleto</div>
+                                        </div>
+                                        <div class="img-tile" onclick="openLightbox('img-single-comparison', 'Comparación / Mapa de Error DT')">
+                                            <span class="zoom-hint">🔍 Zoom</span>
+                                            <img id="img-single-comparison" src="" alt="Mapa de Calor / Comparativa">
+                                            <div class="img-tile-label">Mapa de Error · DT</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="meta-strip" id="meta-strip-single">
+                                        <!-- Metadatos dinámicos -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Análisis de Detalle (Tabla de Métricas) -->
+                            <div class="dash-card">
+                                <div class="dash-card-header">
+                                    <span class="dash-card-title">
+                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                                        Análisis de Detalle
+                                    </span>
+                                    <span style="font-size:11px; font-family:var(--mono); color:var(--dark-muted);">Ponderación configurada</span>
+                                </div>
+                                <div class="dash-card-body" style="padding: 10px 18px 18px;">
+                                    <table class="metrics-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Métrica / Componente</th>
+                                                <th>Alineación / Barra</th>
+                                                <th style="text-align:right;">Peso</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="metrics-body-single">
+                                            <!-- Filas dinámicas -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- JSON Crudo -->
+                            <div class="raw-json-wrap">
+                                <button type="button" class="btn-raw-toggle" onclick="toggleRawJson('json-pre-single')">{ } Ver respuesta JSON cruda</button>
+                                <pre id="json-pre-single" class="raw-json-pre"></pre>
+                            </div>
+                        </div>
+
+                        <!-- COLUMNA DERECHA: SCORE PANEL -->
+                        <div class="score-panel">
+                            <div class="score-hero">
+                                <div class="score-label">Puntuación Final</div>
+                                <div class="score-number" id="single-score-val">0.0</div>
+                                <div class="score-level-badge" id="single-level-badge">Nivel: Intermedio</div>
+                            </div>
+
+                            <div class="score-body">
+                                <!-- Carácter detectado -->
+                                <div class="detected-box">
+                                    <div class="det-char" id="single-det-char">?</div>
+                                    <div class="det-info">
+                                        <strong>Reconocido como</strong>
+                                        <div class="det-label" id="single-det-label">—</div>
+                                        <div class="conf-bar">
+                                            <div class="conf-bar-fill" id="single-conf-bar" style="width: 0%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Mini Stats -->
+                                <div class="mini-stats">
+                                    <div class="mini-stat">
+                                        <span class="mini-stat-label">DF Precisión</span>
+                                        <span class="mini-stat-val" id="single-stat-prec" style="color:var(--green-teal);">—</span>
+                                    </div>
+                                    <div class="mini-stat">
+                                        <span class="mini-stat-label">DF Cobertura</span>
+                                        <span class="mini-stat-val" id="single-stat-cov" style="color:#38bdf8;">—</span>
+                                    </div>
+                                    <div class="mini-stat">
+                                        <span class="mini-stat-label">Topología</span>
+                                        <span class="mini-stat-val" id="single-stat-topo">—</span>
+                                    </div>
+                                </div>
+
+                                <!-- Retroalimentación pedagógica -->
+                                <div class="feedback-box" id="single-feedback-box">
+                                    <strong>Retroalimentación</strong>
+                                    <span id="single-feedback-text">Sin comentarios.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══════════════════════════════════════════════════════
+                 TAB 2: EVALUAR PLANA ESCOLAR
+                 ══════════════════════════════════════════════════════ -->
+            <div id="tab-plana" class="tab-content">
+                <form id="form-plana" onsubmit="evaluatePlana(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="target_char_plana">Carácter esperado <small>(opcional, ej: a)</small>:</label>
+                            <input type="text" id="target_char_plana" name="target_char" maxlength="5" placeholder="Auto (1er carácter)">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="level_plana">Nivel pedagógico:</label>
+                            <select id="level_plana" name="level">
+                                <option value="principiante">Principiante (tolerancia alta)</option>
+                                <option value="intermedio" selected>Intermedio (estándar)</option>
+                                <option value="avanzado">Avanzado (alta exigencia)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label>Fotografía de la plana completa:</label>
+                            <div class="file-upload-box">
+                                <label class="file-picker-btn" for="file_plana" id="file_plana_label">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                    <span id="file_plana_text">Seleccionar fotografía de la plana completa...</span>
+                                </label>
+                                <input type="file" id="file_plana" name="file" accept="image/*" required onchange="handleFileChange(this, 'file_plana_label', 'file_plana_text', 'thumb_plana')">
+                                <img id="thumb_plana" class="upload-thumb" alt="Preview">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="btn-submit-plana" class="submit-btn btn-red">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                        Evaluar Plana con YOLO & DT
+                    </button>
+                </form>
+
+                <div id="loading-plana" class="loading-state">
+                    <div class="spinner"></div>
+                    <div><strong>Detectando caracteres y analizando plana escolar...</strong></div>
+                    <div style="font-size:12px; color:#666; margin-top:4px;">Localizando caracteres con YOLO y evaluando biomecánica de cada trazo</div>
+                </div>
+
+                <!-- DASHBOARD DE RESULTADOS (TAB 2: PLANA) -->
+                <div id="results-plana" class="results-container">
+                    <!-- Resumen general -->
+                    <div class="dash-card">
+                        <div class="dash-card-header">
+                            <span class="dash-card-title">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                Resumen General de la Plana
+                            </span>
+                            <span style="font-size:11px; font-family:var(--mono); color:var(--beige);" id="plana-summary-badge"></span>
+                        </div>
+                        <div class="dash-card-body">
+                            <div class="plana-summary-strip">
+                                <div class="plana-stat-card">
+                                    <div class="plana-stat-val" id="plana-avg-score">0.0</div>
+                                    <div class="plana-stat-label">Promedio General</div>
+                                </div>
+                                <div class="plana-stat-card">
+                                    <div class="plana-stat-val" id="plana-detected-count">0</div>
+                                    <div class="plana-stat-label">Detectados</div>
+                                </div>
+                                <div class="plana-stat-card">
+                                    <div class="plana-stat-val" id="plana-evaluated-count">0</div>
+                                    <div class="plana-stat-label">Evaluados</div>
+                                </div>
+                                <div class="plana-stat-card">
+                                    <div class="plana-stat-val" id="plana-level-val" style="font-size:20px; text-transform:capitalize;">-</div>
+                                    <div class="plana-stat-label">Nivel</div>
+                                </div>
+                            </div>
+
+                            <div class="text-recon-card" id="plana-text-card">
+                                <div class="recon-label">Texto Reconocido por SmartOCR:</div>
+                                <div class="recon-phrase" id="plana-recognized-text">—</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cuadrícula de caracteres individuales evaluados -->
+                    <div class="dash-card">
+                        <div class="dash-card-header">
+                            <span class="dash-card-title">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                                Caracteres Detectados en la Plana
+                            </span>
+                            <span style="font-size:11px; font-family:var(--mono); color:var(--dark-muted);">Haz clic en un carácter para ver su desglose</span>
+                        </div>
+                        <div class="dash-card-body">
+                            <div class="plana-chars-grid" id="plana-chars-grid">
+                                <!-- Generado dinámicamente -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detalle del carácter seleccionado en la plana -->
+                    <div id="plana-char-detail-section" style="display:none;">
+                        <h3 style="margin-bottom:14px; color:var(--black); font-size:18px;">
+                            Detalle del Carácter Seleccionado: <span id="selected-char-title" style="color:var(--red-pantone);">#1</span>
+                        </h3>
+                        <div class="dashboard-grid">
+                            <div>
+                                <div class="dash-card">
+                                    <div class="dash-card-header">
+                                        <span class="dash-card-title">Vistas del Trazo Seleccionado</span>
+                                    </div>
+                                    <div class="dash-card-body">
+                                        <div class="img-strip">
+                                            <div class="img-tile" onclick="openLightbox('img-plana-detail-student', 'Trazo Alumno')">
+                                                <span class="zoom-hint">🔍 Zoom</span>
+                                                <img id="img-plana-detail-student" src="" alt="Alumno">
+                                                <div class="img-tile-label">Alumno · Normalizado</div>
+                                            </div>
+                                            <div class="img-tile" onclick="openLightbox('img-plana-detail-template', 'Plantilla')">
+                                                <span class="zoom-hint">🔍 Zoom</span>
+                                                <img id="img-plana-detail-template" src="" alt="Plantilla">
+                                                <div class="img-tile-label">Plantilla Base (1er car.)</div>
+                                            </div>
+                                            <div class="img-tile" onclick="openLightbox('img-plana-detail-comparison', 'Comparación')">
+                                                <span class="zoom-hint">🔍 Zoom</span>
+                                                <img id="img-plana-detail-comparison" src="" alt="Comparación">
+                                                <div class="img-tile-label">Mapa de Error · DT</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="dash-card">
+                                    <div class="dash-card-header">
+                                        <span class="dash-card-title">Análisis de Detalle</span>
+                                    </div>
+                                    <div class="dash-card-body" style="padding: 10px 18px 18px;">
+                                        <table class="metrics-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Métrica</th>
+                                                    <th>Alineación / Barra</th>
+                                                    <th style="text-align:right;">Peso</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="metrics-body-plana-detail"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="score-panel">
+                                <div class="score-hero">
+                                    <div class="score-label">Puntuación de Carácter</div>
+                                    <div class="score-number" id="plana-char-score-val">0.0</div>
+                                </div>
+                                <div class="score-body">
+                                    <div class="detected-box">
+                                        <div class="det-char" id="plana-char-det-char">?</div>
+                                        <div class="det-info">
+                                            <strong>Reconocido como</strong>
+                                            <div class="det-label" id="plana-char-det-label">—</div>
+                                        </div>
+                                    </div>
+                                    <div class="feedback-box">
+                                        <strong>Retroalimentación</strong>
+                                        <span id="plana-char-feedback-text">—</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- JSON Crudo Plana -->
+                    <div class="raw-json-wrap">
+                        <button type="button" class="btn-raw-toggle" onclick="toggleRawJson('json-pre-plana')">{ } Ver respuesta JSON cruda</button>
+                        <pre id="json-pre-plana" class="raw-json-pre"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Lightbox Modal ────────────────────────────────────── -->
+    <div id="lightbox-modal" class="lightbox-modal" onclick="closeLightbox(event)">
+        <div class="lightbox-content" onclick="event.stopPropagation()">
+            <img id="lightbox-img" src="" alt="Ampliación">
+            <div class="lightbox-footer">
+                <span id="lightbox-caption">Vista ampliada</span>
+                <button type="button" class="lightbox-close" onclick="closeLightbox()">Cerrar ✕</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let API_URL = "https://tutor-api-bn0p.onrender.com";
+
+        const WEIGHTS = {
+            dt_precision: 0.30,
+            dt_coverage: 0.20,
+            topology: 0.20,
+            ssim: 0.12,
+            procrustes: 0.10,
+            hausdorff: 0.04,
+            trajectory: 0.02,
+            cosine: 0.02
+        };
+
+        const METRIC_ROWS = [
+            { key: "dt_precision", name: "DF Precisión", sub: "Precisión del trazado con carril (Distance Transform)" },
+            { key: "dt_coverage", name: "DF Cobertura", sub: "Cobertura del esqueleto de referencia" },
+            { key: "topology", name: "Topología", sub: "Coincidencia de bucles y agujeros estructurales" },
+            { key: "ssim", name: "SSIM", sub: "Similitud estructural global de la masa del trazo" },
+            { key: "procrustes", name: "Proporción", sub: "Ajuste geométrico de forma y escala" },
+            { key: "hausdorff", name: "Hausdorff", sub: "Control y penalización de trazos erráticos" },
+            { key: "trajectory", name: "Simetría / Trayectoria", sub: "Dinámica y coherencia secuencial del trazo (DTW)" },
+            { key: "cosine", name: "Coseno de Segmentos", sub: "Coherencia de ángulos y dirección de segmentos" }
+        ];
+
+        let planaCurrentData = null;
+
+        // ── Inicialización y verificación de API ──
+        window.addEventListener('load', () => {
+            const savedUrl = localStorage.getItem('tutor_api_url');
+            if (savedUrl) {
+                API_URL = savedUrl;
+                const sel = document.getElementById('apiSelect');
+                if (sel) sel.value = savedUrl;
+            }
+            checkApiStatus();
+        });
+
+        function changeApiUrl(url) {
+            API_URL = url;
+            localStorage.setItem('tutor_api_url', url);
+            checkApiStatus();
+        }
+
+        async function checkApiStatus() {
+            const dot = document.getElementById("statusDot");
+            const text = document.getElementById("statusText");
+            const banner = document.getElementById("render-banner");
+
+            dot.className = "status-dot";
+            text.textContent = "Verificando...";
+
+            if (API_URL.includes("render.com")) {
+                banner.style.display = 'block';
+            }
+
+            try {
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort(), 6000);
+
+                const res = await fetch(`${API_URL}/docs`, {
+                    mode: 'no-cors',
+                    signal: controller.signal
+                });
+                clearTimeout(timeout);
+
+                dot.className = "status-dot online";
+                text.textContent = "API Conectada";
+                banner.style.display = 'none';
+                return true;
+            } catch (err) {
+                dot.className = "status-dot offline";
+                text.textContent = "API Offline / Desconectada";
+                if (banner.style.display === 'block') {
+                    banner.innerText = "⚠️ Instancia de Render iniciando o API local inactiva...";
+                    setTimeout(() => { banner.style.display = 'none'; }, 4000);
+                }
+                return false;
+            }
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            if (tabName === 'single') {
+                document.getElementById('btn-tab-single').classList.add('active');
+                document.getElementById('tab-single').classList.add('active');
+            } else {
+                document.getElementById('btn-tab-plana').classList.add('active');
+                document.getElementById('tab-plana').classList.add('active');
+            }
+        }
+
+        function handleFileChange(input, labelId, textId, thumbId) {
+            const file = input.files[0];
+            const label = document.getElementById(labelId);
+            const text = document.getElementById(textId);
+            const thumb = document.getElementById(thumbId);
+
+            if (file) {
+                label.classList.add('has-file');
+                text.textContent = file.name.length > 25 ? file.name.slice(0, 22) + "..." : file.name;
+                
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    thumb.src = e.target.result;
+                    thumb.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                label.classList.remove('has-file');
+                thumb.style.display = 'none';
+            }
+        }
+
+        function getScoreColor(val) {
+            if (val >= 75) return "var(--green-teal)";
+            if (val >= 45) return "#d9822b";
+            return "var(--red-pantone)";
+        }
+
+        function renderMetricsTable(tbodyId, scoresBreakdown, weights) {
+            const tbody = document.getElementById(tbodyId);
+            if (!tbody) return;
+
+            const bd = scoresBreakdown || {};
+            const w = weights || WEIGHTS;
+
+            tbody.innerHTML = METRIC_ROWS.map((m) => {
+                const val = Number(bd[m.key] ?? 0);
+                const weightPct = Number((w[m.key] ?? WEIGHTS[m.key] ?? 0) * 100).toFixed(0);
+                const color = getScoreColor(val);
+
+                return `
+                    <tr>
+                        <td class="metric-name">
+                            ${m.name}
+                            <small>${m.sub}</small>
+                        </td>
+                        <td>
+                            <div class="metric-bar-wrap">
+                                <div class="metric-bar-bg">
+                                    <div class="metric-bar-fill" style="width:${Math.min(100, Math.max(0, val))}%; background:${color};"></div>
+                                </div>
+                                <span class="metric-val" style="color:${color};">${val.toFixed(1)}</span>
+                            </div>
+                        </td>
+                        <td style="text-align:right;">
+                            <span class="weight-tag">${weightPct}%</span>
+                        </td>
+                    </tr>
+                `;
+            }).join("");
+        }
+
+        function renderMetaStrip(stripId, meta) {
+            const container = document.getElementById(stripId);
+            if (!container || !meta) return;
+
+            const tags = [];
+            if (meta.angle_corrected !== undefined) tags.push(`Inclinación: ${meta.angle_corrected}°`);
+            if (meta.scale_factor !== undefined) tags.push(`Escala: ×${Number(meta.scale_factor).toFixed(2)}`);
+            if (meta.roi_refined !== undefined) tags.push(meta.roi_refined ? "ROI: Refinado" : "ROI: Completo");
+            if (meta.char_width_px && meta.char_height_px) tags.push(`${meta.char_width_px}×${meta.char_height_px}px`);
+            if (meta.model_type) tags.push(`Modelo: ${meta.model_type}`);
+            if (meta.classification_method) tags.push(`Método: ${meta.classification_method}`);
+            if (meta.smart_ocr) tags.push("SmartOCR ✓");
+
+            container.innerHTML = tags.map(t => `<span class="meta-tag ${t.includes('✓') ? 'highlight' : ''}">${t}</span>`).join("");
+        }
+
+        // ═════════════════════════════════════════════════════════
+        // EVALUAR CARÁCTER INDIVIDUAL
+        // ═════════════════════════════════════════════════════════
+        async function evaluateSingle(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-submit-single');
+            const fileInput = document.getElementById('file_single');
+            const targetChar = document.getElementById('target_char').value.trim();
+            const level = document.getElementById('level_single').value;
+
+            if (!fileInput.files[0]) {
+                alert('Por favor selecciona una fotografía del carácter.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('target_char', targetChar);
+            formData.append('level', level);
+            formData.append('file', fileInput.files[0]);
+
+            btn.disabled = true;
+            document.getElementById('loading-single').style.display = 'block';
+            document.getElementById('results-single').style.display = 'none';
+
+            try {
+                const response = await fetch(`${API_URL}/evaluate`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || data.error) {
+                    throw new Error(data.error || data.detail || `Error HTTP ${response.status}`);
+                }
+
+                // Imágenes
+                const setImg = (id, b64) => {
+                    const el = document.getElementById(id);
+                    if (el) el.src = b64 ? `data:image/png;base64,${b64}` : '';
+                };
+
+                setImg('img-single-student', data.image_student_b64);
+                setImg('img-single-template', data.template_b64);
+                setImg('img-single-comparison', data.comparison_b64);
+
+                // Score final
+                const score = Number(data.score_final ?? 0);
+                const scoreEl = document.getElementById('single-score-val');
+                scoreEl.textContent = score.toFixed(1);
+                scoreEl.style.color = getScoreColor(score);
+
+                document.getElementById('single-level-badge').textContent = `Nivel: ${(data.level || level).toUpperCase()}`;
+
+                // Reconocimiento
+                const detChar = data.detected_char || targetChar || '?';
+                const confPct = ((data.confidence ?? 0) * 100).toFixed(1);
+                document.getElementById('single-det-char').textContent = detChar;
+                document.getElementById('single-det-label').textContent = `${detChar} (${confPct}% confianza)`;
+                document.getElementById('single-conf-bar').style.width = `${confPct}%`;
+
+                // Mini stats
+                const bd = data.scores_breakdown || {};
+                document.getElementById('single-stat-prec').textContent = bd.dt_precision !== undefined ? `${Number(bd.dt_precision).toFixed(0)}%` : '—';
+                document.getElementById('single-stat-cov').textContent = bd.dt_coverage !== undefined ? `${Number(bd.dt_coverage).toFixed(0)}%` : '—';
+                
+                const topoEl = document.getElementById('single-stat-topo');
+                const topoScore = Number(bd.topology ?? 0);
+                topoEl.textContent = topoScore >= 80 ? '✓ Coincide' : '✗ Desvío';
+                topoEl.style.color = topoScore >= 80 ? 'var(--green-teal)' : 'var(--red-pantone)';
+
+                // Retroalimentación
+                document.getElementById('single-feedback-text').textContent = data.feedback || 'Trazo evaluado correctamente.';
+
+                // Metadatos
+                renderMetaStrip('meta-strip-single', data.metadata);
+
+                // Tabla de métricas
+                renderMetricsTable('metrics-body-single', bd, data.weights_used);
+
+                // JSON crudo
+                document.getElementById('json-pre-single').textContent = JSON.stringify(data, null, 2);
+
+                document.getElementById('results-single').style.display = 'block';
+                document.getElementById('results-single').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            } catch (err) {
+                alert(`Error al evaluar carácter: ${err.message}`);
+            } finally {
+                btn.disabled = false;
+                document.getElementById('loading-single').style.display = 'none';
+            }
+        }
+
+        // ═════════════════════════════════════════════════════════
+        // EVALUAR PLANA COMPLETA
+        // ═════════════════════════════════════════════════════════
+        async function evaluatePlana(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-submit-plana');
+            const fileInput = document.getElementById('file_plana');
+            const targetChar = document.getElementById('target_char_plana').value.trim();
+            const level = document.getElementById('level_plana').value;
+
+            if (!fileInput.files[0]) {
+                alert('Por favor selecciona una fotografía de la plana.');
+                return;
+            }
+
+            const formData = new FormData();
+            if (targetChar) formData.append('target_char', targetChar);
+            formData.append('level', level);
+            formData.append('file', fileInput.files[0]);
+
+            btn.disabled = true;
+            document.getElementById('loading-plana').style.display = 'block';
+            document.getElementById('results-plana').style.display = 'none';
+            document.getElementById('plana-char-detail-section').style.display = 'none';
+
+            try {
+                const response = await fetch(`${API_URL}/evaluate_plana`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || data.error) {
+                    throw new Error(data.error || data.detail || `Error HTTP ${response.status}`);
+                }
+
+                planaCurrentData = data;
+
+                // Estadísticas
+                const avgScore = Number(data.avg_score ?? 0);
+                const avgEl = document.getElementById('plana-avg-score');
+                avgEl.textContent = `${avgScore.toFixed(1)}%`;
+                avgEl.style.color = getScoreColor(avgScore);
+
+                document.getElementById('plana-detected-count').textContent = data.n_detected ?? (data.results ? data.results.length : 0);
+                document.getElementById('plana-evaluated-count').textContent = data.n_evaluated ?? (data.results ? data.results.length : 0);
+                document.getElementById('plana-level-val').textContent = data.level || level;
+                document.getElementById('plana-summary-badge').textContent = `Plantilla: '${data.template_char || 'Auto'}'`;
+
+                // SmartOCR
+                const smartOcr = data.smart_ocr || {};
+                const recText = smartOcr.recognized_text || (data.results || []).map(r => r.detected_char || '').join(' ');
+                document.getElementById('plana-recognized-text').textContent = recText || '—';
+
+                // Render grid de caracteres
+                const grid = document.getElementById('plana-chars-grid');
+                grid.innerHTML = (data.results || []).map((r, idx) => {
+                    const sc = Number(r.score_final ?? 0);
+                    const col = getScoreColor(sc);
+                    return `
+                        <div class="plana-char-card" id="plana-card-${idx}" onclick="selectPlanaChar(${idx})">
+                            <div class="plana-char-header">
+                                <span style="color:var(--beige);">#${r.index ?? idx + 1}</span>
+                                <span style="font-weight:bold; color:#fff;">'${r.detected_char || '?'}'</span>
+                            </div>
+                            <img class="plana-char-img" src="${r.image_student_b64 ? 'data:image/png;base64,' + r.image_student_b64 : ''}" alt="Char">
+                            <div class="plana-char-footer">
+                                <span style="font-size:10px; color:var(--dark-muted);">${((r.confidence ?? 0) * 100).toFixed(0)}% conf.</span>
+                                <span style="font-weight:bold; color:${col};">${sc.toFixed(0)} pts</span>
+                            </div>
+                        </div>
+                    `;
+                }).join("");
+
+                // JSON crudo
+                document.getElementById('json-pre-plana').textContent = JSON.stringify(data, null, 2);
+
+                document.getElementById('results-plana').style.display = 'block';
+                document.getElementById('results-plana').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                // Seleccionar primer carácter por defecto
+                if (data.results && data.results.length > 0) {
+                    selectPlanaChar(0);
+                }
+
+            } catch (err) {
+                alert(`Error al evaluar plana: ${err.message}`);
+            } finally {
+                btn.disabled = false;
+                document.getElementById('loading-plana').style.display = 'none';
+            }
+        }
+
+        function selectPlanaChar(index) {
+            if (!planaCurrentData || !planaCurrentData.results) return;
+            const r = planaCurrentData.results[index];
+            if (!r) return;
+
+            document.querySelectorAll('.plana-char-card').forEach(c => c.classList.remove('selected'));
+            const selectedCard = document.getElementById(`plana-card-${index}`);
+            if (selectedCard) selectedCard.classList.add('selected');
+
+            document.getElementById('selected-char-title').textContent = `#${r.index ?? index + 1} ('${r.detected_char || '?'}')`;
+
+            // Imágenes
+            const setImg = (id, b64) => {
+                const el = document.getElementById(id);
+                if (el) el.src = b64 ? `data:image/png;base64,${b64}` : '';
+            };
+            setImg('img-plana-detail-student', r.image_student_b64);
+            setImg('img-plana-detail-template', planaCurrentData.template_b64);
+            setImg('img-plana-detail-comparison', r.comparison_b64);
+
+            // Score & info
+            const score = Number(r.score_final ?? 0);
+            const scoreEl = document.getElementById('plana-char-score-val');
+            scoreEl.textContent = score.toFixed(1);
+            scoreEl.style.color = getScoreColor(score);
+
+            document.getElementById('plana-char-det-char').textContent = r.detected_char || '?';
+            document.getElementById('plana-char-det-label').textContent = `${r.detected_char || '?'} (${((r.confidence ?? 0) * 100).toFixed(1)}% confianza)`;
+            document.getElementById('plana-char-feedback-text').textContent = r.feedback || 'Evaluación de trazo individual.';
+
+            // Métricas
+            renderMetricsTable('metrics-body-plana-detail', r.scores_breakdown, r.weights_used);
+
+            document.getElementById('plana-char-detail-section').style.display = 'block';
+        }
+
+        // ═════════════════════════════════════════════════════════
+        // LIGHTBOX MODAL Y UTILIDADES
+        // ═════════════════════════════════════════════════════════
+        function openLightbox(imgId, caption) {
+            const srcImg = document.getElementById(imgId);
+            if (!srcImg || !srcImg.src) return;
+
+            const modal = document.getElementById('lightbox-modal');
+            const targetImg = document.getElementById('lightbox-img');
+            const captionEl = document.getElementById('lightbox-caption');
+
+            targetImg.src = srcImg.src;
+            captionEl.textContent = caption || 'Detalle del Trazo';
+            modal.style.display = 'flex';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox-modal').style.display = 'none';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+
+        function toggleRawJson(id) {
+            const pre = document.getElementById(id);
+            if (pre) {
+                pre.style.display = (pre.style.display === 'block') ? 'none' : 'block';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -40,7 +40,7 @@ Sistema de visión por computadora y deep learning que evalúa la calidad de tra
 
 ## 1. Objetivo del Sistema
 
-Desarrollar un tutor inteligente de caligrafía que permita a niños en etapa de aprendizaje de escritura recibir evaluación y retroalimentación automática sobre la calidad de sus trazos manuscritos.
+Desarrollar un tutor inteligente de caligrafía que permita a niños  Y personas analfabetas en etapa de aprendizaje de escritura recibir evaluación y retroalimentación automática sobre la calidad de sus trazos manuscritos.
 
 El sistema analiza fotografías de cuadernos escolares tomadas con celular, detecta los caracteres escritos, los compara contra plantillas de referencia y genera una calificación numérica (0–100) junto con retroalimentación pedagógica en español.
 
@@ -441,17 +441,15 @@ curl -X POST "http://localhost:8000/recognize" \
 
 ---
 
-## 9. Notebooks de Entrenamiento (Kaggle)
+## 9. Notebooks de Entrenamiento
 
-Los modelos se entrenaron en Kaggle. A continuación se documenta el proceso completo de cada notebook para que cualquier persona pueda reproducir el entrenamiento desde cero.
+Los modelos se entrenaron inicialmente en Kaggle. El código de entrenamiento se encuentra disponible en la carpeta `Notebooks/` del repositorio para fines de reproducibilidad y reentrenamiento.
 
 ---
 
-### 9.1 Detector YOLOv8 (`spanish_char_detector.ipynb`)
+### 9.1 Detector YOLOv8 (`Notebooks/spanish_char_detector_v2.ipynb`)
 
-**URL:** https://www.kaggle.com/code/danielperegrinoperez/detector-train
-
-Este notebook entrena el detector single-class (clase 0 = `trazo`) que localiza caracteres manuscritos en imágenes completas. Es la **Etapa 1** del pipeline de 2 etapas.
+Este notebook entrena el detector single-class (clase 0 = `trazo`) que localiza caracteres manuscritos en imágenes completas. Es la **Etapa 1** del pipeline.
 
 #### Datasets requeridos en Kaggle
 

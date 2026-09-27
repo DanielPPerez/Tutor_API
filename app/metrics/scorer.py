@@ -150,7 +150,7 @@ def calculate_final_score(
     )
 
     return {
-        "score_final": float(round(final, 2)),
+        "score_final": int(round(final)),
         "level":       level,
         "scores_breakdown": {
             "dt_precision":  round(s_dt_prec, 2),

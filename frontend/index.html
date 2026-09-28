@@ -1049,6 +1049,302 @@
             cursor: pointer;
             font-weight: bold;
         }
+
+        /* ── Render Free Tier Info Notice ───────────────────── */
+        .render-info-card {
+            background: linear-gradient(135deg, #16202e, #0f151f);
+            border: 1px solid #1f364d;
+            border-left: 5px solid #009887;
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin-bottom: 22px;
+            color: #dce7f3;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.15);
+            animation: fadeIn 0.4s ease;
+        }
+
+        .render-info-icon {
+            font-size: 24px;
+            line-height: 1;
+        }
+
+        .render-info-body h4 {
+            margin: 0 0 6px 0;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .render-info-body p {
+            margin: 0;
+            font-size: 12.5px;
+            line-height: 1.5;
+            color: #9ab0c5;
+        }
+
+        .render-info-body small {
+            display: inline-block;
+            margin-top: 6px;
+            color: #4cd5b8;
+            font-family: var(--mono);
+            font-size: 11px;
+        }
+
+        .render-info-close {
+            background: transparent;
+            border: none;
+            color: #7b93ab;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 2px 6px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .render-info-close:hover {
+            color: #ffffff;
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* ── Demo Showcase Section ───────────────────────────── */
+        .demo-showcase {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 22px 24px;
+            margin-bottom: 24px;
+            border: 1px solid #e7ded5;
+            border-top: 4px solid var(--red-pantone);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.04);
+        }
+
+        .demo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 18px;
+            border-bottom: 1px solid #f0e7df;
+            padding-bottom: 14px;
+        }
+
+        .demo-title-group h2 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--black);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .demo-badge-header {
+            background: rgba(161, 35, 54, 0.1);
+            color: var(--red-pantone);
+            font-size: 11px;
+            font-weight: 700;
+            font-family: var(--mono);
+            padding: 2px 8px;
+            border-radius: 4px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .demo-title-group p {
+            font-size: 13px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .demo-filter-btns {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .demo-filter-btn {
+            background: var(--beige-light);
+            border: 1px solid var(--beige);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #333;
+        }
+
+        .demo-filter-btn:hover {
+            background: var(--beige);
+            color: #000;
+        }
+
+        .demo-filter-btn.active {
+            background: var(--black);
+            color: var(--white);
+            border-color: var(--black);
+        }
+
+        .demo-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 16px;
+        }
+
+        .demo-card {
+            background: #faf8f5;
+            border: 1px solid #e7ded5;
+            border-radius: 10px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .demo-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            border-color: var(--green-teal);
+        }
+
+        .demo-card-thumb-wrap {
+            height: 125px;
+            background: #ffffff;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #eaded4;
+            margin-bottom: 12px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .demo-card-thumb {
+            max-height: 90%;
+            max-width: 90%;
+            object-fit: contain;
+            transition: transform 0.25s ease;
+        }
+
+        .demo-card:hover .demo-card-thumb {
+            transform: scale(1.06);
+        }
+
+        .demo-badge-type {
+            position: absolute;
+            top: 7px;
+            right: 7px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-family: var(--mono);
+            backdrop-filter: blur(4px);
+        }
+
+        .demo-badge-type.single {
+            background: rgba(0, 152, 135, 0.15);
+            color: #007466;
+            border: 1px solid rgba(0, 152, 135, 0.35);
+        }
+
+        .demo-badge-type.plana {
+            background: rgba(161, 35, 54, 0.15);
+            color: var(--red-pantone);
+            border: 1px solid rgba(161, 35, 54, 0.35);
+        }
+
+        .demo-card-char-badge {
+            position: absolute;
+            bottom: 6px;
+            left: 7px;
+            background: #111215;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 13px;
+            font-family: var(--mono);
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        .demo-card-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--black);
+            margin-bottom: 3px;
+        }
+
+        .demo-card-desc {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 12px;
+            flex-grow: 1;
+            line-height: 1.4;
+        }
+
+        .demo-card-actions {
+            display: flex;
+            gap: 7px;
+            margin-top: auto;
+        }
+
+        .btn-demo-primary {
+            flex: 1;
+            background: var(--green-teal);
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-demo-primary:hover {
+            background: var(--green-teal-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(0, 152, 135, 0.3);
+        }
+
+        .btn-demo-secondary {
+            background: #ffffff;
+            color: #333333;
+            border: 1px solid #d3c2b3;
+            border-radius: 6px;
+            padding: 8px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-demo-secondary:hover {
+            background: var(--beige-light);
+            border-color: #888888;
+            color: #000000;
+        }
     </style>
 </head>
 <body>
@@ -1082,6 +1378,195 @@
     </header>
 
     <div class="container">
+
+        <!-- ── EXPLICACIÓN DE DELAY DE RENDER (COLD START) ── -->
+        <div class="render-info-card" id="renderNoticeCard">
+            <div class="render-info-icon">⚡</div>
+            <div class="render-info-body">
+                <h4>
+                    ¿Por qué tarda en responder la primera vez? (Cold Start de Render)
+                </h4>
+                <p>
+                    Al estar en el plan gratuito de Render, el servidor entra en reposo (spin-down) tras 15 minutos de inactividad. Al ingresar o enviar una petición, Render despierta el contenedor y tarda <strong>aprox. 50 segundos</strong>. Una vez despierto, <strong>todos los análisis y pruebas responden al instante</strong>.
+                </p>
+                <small>Tip: Puedes usar las tarjetas de demo de abajo para probar de inmediato con 1 clic en cuanto el indicador esté en verde.</small>
+            </div>
+            <button type="button" class="render-info-close" onclick="document.getElementById('renderNoticeCard').style.display='none'" title="Ocultar aviso">✕</button>
+        </div>
+
+        <!-- ── BANCO DE PRUEBAS / DEMO SHOWCASE ── -->
+        <section class="demo-showcase">
+            <div class="demo-header">
+                <div class="demo-title-group">
+                    <h2>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--red-pantone)" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        Banco de Pruebas Rápidas (Demo)
+                        <span class="demo-badge-header">Carpeta Prueba</span>
+                    </h2>
+                    <p>Haz clic en cualquiera de estas muestras reales extraídas de la carpeta <code>data/Prueba</code> para cargar la imagen y configurar el carácter esperado automáticamente.</p>
+                </div>
+                <div class="demo-filter-btns">
+                    <button type="button" class="demo-filter-btn active" onclick="filterDemoCards('all', this)">Todas (8)</button>
+                    <button type="button" class="demo-filter-btn" onclick="filterDemoCards('single', this)">Individuales (6)</button>
+                    <button type="button" class="demo-filter-btn" onclick="filterDemoCards('plana', this)">Planas (2)</button>
+                </div>
+            </div>
+
+            <div class="demo-cards-grid" id="demoCardsGrid">
+                <!-- Card 1: A Mayúscula -->
+                <div class="demo-card" data-type="single">
+                    <div class="demo-card-thumb-wrap" onclick="loadDemoSample('/samples/A_mayuscula.jpeg', 'A', 'single', false)" title="Click para cargar en el formulario">
+                        <img src="/samples/A_mayuscula.jpeg" class="demo-card-thumb" alt="Letra A Mayúscula" onerror="this.src='https://placehold.co/180x120?text=A+Mayuscula'">
+                        <span class="demo-badge-type single">Individual</span>
+                        <div class="demo-card-char-badge">A</div>
+                    </div>
+                    <div class="demo-card-title">Letra 'A' Mayúscula</div>
+                    <div class="demo-card-desc">Trazo manuscrito individual en papel cuadriculado / libre.</div>
+                    <div class="demo-card-actions">
+                        <button type="button" class="btn-demo-primary" onclick="loadDemoSample('/samples/A_mayuscula.jpeg', 'A', 'single', true)" title="Carga y evalúa inmediatamente">
+                            ⚡ Analizar Ahora
+                        </button>
+                        <button type="button" class="btn-demo-secondary" onclick="loadDemoSample('/samples/A_mayuscula.jpeg', 'A', 'single', false)" title="Solo carga en el formulario">
+                            Cargar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 2: a Minúscula -->
+                <div class="demo-card" data-type="single">
+                    <div class="demo-card-thumb-wrap" onclick="loadDemoSample('/samples/a%20minuscula.jpeg', 'a', 'single', false)" title="Click para cargar en el formulario">
+                        <img src="/samples/a%20minuscula.jpeg" class="demo-card-thumb" alt="Letra a Minúscula" onerror="this.src='https://placehold.co/180x120?text=a+Minuscula'">
+                        <span class="demo-badge-type single">Individual</span>
+                        <div class="demo-card-char-badge">a</div>
+                    </div>
+                    <div class="demo-card-title">Letra 'a' Minúscula</div>
+                    <div class="demo-card-desc">Carácter redondo con astil vertical descendente.</div>
+                    <div class="demo-card-actions">
+                        <button type="button" class="btn-demo-primary" onclick="loadDemoSample('/samples/a%20minuscula.jpeg', 'a', 'single', true)" title="Carga y evalúa inmediatamente">
+                            ⚡ Analizar Ahora
+                        </button>
+                        <button type="button" class="btn-demo-secondary" onclick="loadDemoSample('/samples/a%20minuscula.jpeg', 'a', 'single', false)" title="Solo carga en el formulario">
+                            Cargar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 3: D Mayúscula -->
+                <div class="demo-card" data-type="single">
+                    <div class="demo-card-thumb-wrap" onclick="loadDemoSample('/samples/D.jpeg', 'D', 'single', false)" title="Click para cargar en el formulario">
+                        <img src="/samples/D.jpeg" class="demo-card-thumb" alt="Letra D" onerror="this.src='https://placehold.co/180x120?text=Letra+D'">
+                        <span class="demo-badge-type single">Individual</span>
+                        <div class="demo-card-char-badge">D</div>
+                    </div>
+                    <div class="demo-card-title">Letra 'D' Mayúscula</div>
+                    <div class="demo-card-desc">Trazo recto vertical con semicírculo derecho prominente.</div>
+                    <div class="demo-card-actions">
+                        <button type="button" class="btn-demo-primary" onclick="loadDemoSample('/samples/D.jpeg', 'D', 'single', true)" title="Carga y evalúa inmediatamente">
+                            ⚡ Analizar Ahora
+                        </button>
+                        <button type="button" class="btn-demo-secondary" onclick="loadDemoSample('/samples/D.jpeg', 'D', 'single', false)" title="Solo carga en el formulario">
+                            Cargar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 4: e Minúscula -->
+                <div class="demo-card" data-type="single">
+                    <div class="demo-card-thumb-wrap" onclick="loadDemoSample('/samples/e.jpeg', 'e', 'single', false)" title="Click para cargar en el formulario">
+                        <img src="/samples/e.jpeg" class="demo-card-thumb" alt="Letra e" onerror="this.src='https://placehold.co/180x120?text=Letra+e'">
+                        <span class="demo-badge-type single">Individual</span>
+                        <div class="demo-card-char-badge">e</div>
+                    </div>
+                    <div class="demo-card-title">Letra 'e' Minúscula</div>
+                    <div class="demo-card-desc">Bucle cerrado con terminación curva inferior abierta.</div>
+                    <div class="demo-card-actions">
+                        <button type="button" class="btn-demo-primary" onclick="loadDemoSample('/samples/e.jpeg', 'e', 'single', true)" title="Carga y evalúa inmediatamente">
+                            ⚡ Analizar Ahora
+                        </button>
+                        <button type="button" class="btn-demo-secondary" onclick="loadDemoSample('/samples/e.jpeg', 'e', 'single', false)" title="Solo carga en el formulario">
+                            Cargar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 5: w Minúscula -->
+                <div class="demo-card" data-type="single">
+                    <div class="demo-card-thumb-wrap" onclick="loadDemoSample('/samples/w.jpeg', 'w', 'single', false)" title="Click para cargar en el formulario">
+                        <img src="/samples/w.jpeg" class="demo-card-thumb" alt="Letra w" onerror="this.src='https://placehold.co/180x120?text=Letra+w'">
+                        <span class="demo-badge-type single">Individual</span>
+                        <div class="demo-card-char-badge">w</div>
+                    </div>
+                    <div class="demo-card-title">Letra 'w' Minúscula</div>
+                    <div class="demo-card-desc">Secuencia de trazos oblicuos continuos en zig-zag.</div>
+                    <div class="demo-card-actions">
+                        <button type="button" class="btn-demo-primary" onclick="loadDemoSample('/samples/w.jpeg', 'w', 'single', true)" title="Carga y evalúa inmediatamente">
+                            ⚡ Analizar Ahora
+                        </button>
+                        <button type="button" class="btn-demo-secondary" onclick="loadDemoSample('/samples/w.jpeg', 'w', 'single', false)" title="Solo carga en el formulario">
+                            Cargar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 6: z Minúscula -->
+                <div class="demo-card" data-type="single">
+                    <div class="demo-card-thumb-wrap" onclick="loadDemoSample('/samples/z.jpeg', 'z', 'single', false)" title="Click para cargar en el formulario">
+                        <img src="/samples/z.jpeg" class="demo-card-thumb" alt="Letra z" onerror="this.src='https://placehold.co/180x120?text=Letra+z'">
+                        <span class="demo-badge-type single">Individual</span>
+                        <div class="demo-card-char-badge">z</div>
+                    </div>
+                    <div class="demo-card-title">Letra 'z' Minúscula</div>
+                    <div class="demo-card-desc">Líneas horizontales superior/inferior unidas por diagonal.</div>
+                    <div class="demo-card-actions">
+                        <button type="button" class="btn-demo-primary" onclick="loadDemoSample('/samples/z.jpeg', 'z', 'single', true)" title="Carga y evalúa inmediatamente">
+                            ⚡ Analizar Ahora
+                        </button>
+                        <button type="button" class="btn-demo-secondary" onclick="loadDemoSample('/samples/z.jpeg', 'z', 'single', false)" title="Solo carga en el formulario">
+                            Cargar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 7: Plana A -->
+                <div class="demo-card" data-type="plana">
+                    <div class="demo-card-thumb-wrap" onclick="loadDemoSample('/samples/A_plana.jpeg', 'A', 'plana', false)" title="Click para cargar en el formulario de plana">
+                        <img src="/samples/A_plana.jpeg" class="demo-card-thumb" alt="Plana Letra A" onerror="this.src='https://placehold.co/180x120?text=Plana+A'">
+                        <span class="demo-badge-type plana">Plana Completa</span>
+                        <div class="demo-card-char-badge">A</div>
+                    </div>
+                    <div class="demo-card-title">Plana Completa 'A'</div>
+                    <div class="demo-card-desc">Hoja con múltiples repeticiones. Detección YOLO y SmartOCR.</div>
+                    <div class="demo-card-actions">
+                        <button type="button" class="btn-demo-primary" onclick="loadDemoSample('/samples/A_plana.jpeg', 'A', 'plana', true)" title="Carga y evalúa plana inmediatamente">
+                            ⚡ Analizar Plana
+                        </button>
+                        <button type="button" class="btn-demo-secondary" onclick="loadDemoSample('/samples/A_plana.jpeg', 'A', 'plana', false)" title="Solo cargar">
+                            Cargar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 8: Plana B -->
+                <div class="demo-card" data-type="plana">
+                    <div class="demo-card-thumb-wrap" onclick="loadDemoSample('/samples/B_plana.jpeg', 'B', 'plana', false)" title="Click para cargar en el formulario de plana">
+                        <img src="/samples/B_plana.jpeg" class="demo-card-thumb" alt="Plana Letra B" onerror="this.src='https://placehold.co/180x120?text=Plana+B'">
+                        <span class="demo-badge-type plana">Plana Completa</span>
+                        <div class="demo-card-char-badge">B</div>
+                    </div>
+                    <div class="demo-card-title">Plana Completa 'B'</div>
+                    <div class="demo-card-desc">Hoja de caligrafía con filas de repetición de la letra B.</div>
+                    <div class="demo-card-actions">
+                        <button type="button" class="btn-demo-primary" onclick="loadDemoSample('/samples/B_plana.jpeg', 'B', 'plana', true)" title="Carga y evalúa plana inmediatamente">
+                            ⚡ Analizar Plana
+                        </button>
+                        <button type="button" class="btn-demo-secondary" onclick="loadDemoSample('/samples/B_plana.jpeg', 'B', 'plana', false)" title="Solo cargar">
+                            Cargar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <div class="main-card">
             <!-- PESTAÑAS -->
             <div class="tabs">
@@ -1453,7 +1938,9 @@
     </div>
 
     <script>
-        let API_URL = "https://tutor-api-bn0p.onrender.com";
+        // Detectar si la página corre desde servidor web (Render / local) o archivo directo
+        const isHttp = window.location.protocol.startsWith('http');
+        let API_URL = isHttp ? window.location.origin : "https://tutor-api-bn0p.onrender.com";
 
         const WEIGHTS = {
             dt_precision: 0.30,
@@ -1484,8 +1971,28 @@
             const savedUrl = localStorage.getItem('tutor_api_url');
             if (savedUrl) {
                 API_URL = savedUrl;
-                const sel = document.getElementById('apiSelect');
-                if (sel) sel.value = savedUrl;
+            } else if (isHttp) {
+                API_URL = window.location.origin;
+            }
+            
+            const sel = document.getElementById('apiSelect');
+            if (sel) {
+                // Asegurar que el origen actual esté en el selector
+                let hasCurrent = false;
+                for (let i = 0; i < sel.options.length; i++) {
+                    if (sel.options[i].value === API_URL) {
+                        sel.selectedIndex = i;
+                        hasCurrent = true;
+                        break;
+                    }
+                }
+                if (!hasCurrent && isHttp) {
+                    const opt = document.createElement('option');
+                    opt.value = window.location.origin;
+                    opt.textContent = `Actual (${window.location.host})`;
+                    opt.selected = true;
+                    sel.prepend(opt);
+                }
             }
             checkApiStatus();
         });
@@ -1504,33 +2011,119 @@
             dot.className = "status-dot";
             text.textContent = "Verificando...";
 
-            if (API_URL.includes("render.com")) {
+            if (API_URL.includes("render.com") && banner) {
                 banner.style.display = 'block';
+                banner.innerText = "⚡ Conectando al backend de Render (si estaba dormido puede tardar ~50s)...";
             }
 
             try {
                 const controller = new AbortController();
-                const timeout = setTimeout(() => controller.abort(), 6000);
+                const timeout = setTimeout(() => controller.abort(), 12000);
 
-                const res = await fetch(`${API_URL}/docs`, {
-                    mode: 'no-cors',
+                // Intenta ping / health check directo
+                const res = await fetch(`${API_URL}/ping`, {
                     signal: controller.signal
+                }).catch(() => {
+                    // Fallback a docs si no responde ping
+                    return fetch(`${API_URL}/docs`, { mode: 'no-cors', signal: controller.signal });
                 });
                 clearTimeout(timeout);
 
                 dot.className = "status-dot online";
                 text.textContent = "API Conectada";
-                banner.style.display = 'none';
+                if (banner) banner.style.display = 'none';
                 return true;
             } catch (err) {
                 dot.className = "status-dot offline";
-                text.textContent = "API Offline / Desconectada";
-                if (banner.style.display === 'block') {
-                    banner.innerText = "⚠️ Instancia de Render iniciando o API local inactiva...";
-                    setTimeout(() => { banner.style.display = 'none'; }, 4000);
+                text.textContent = "API Despertando / Offline";
+                if (banner && banner.style.display === 'block') {
+                    banner.innerText = "⏳ Instancia de Render iniciando (Cold Start)... Espera unos segundos y recarga.";
                 }
                 return false;
             }
+        }
+
+        // ── Cargar Muestra Demo desde la carpeta Prueba ──
+        async function loadDemoSample(sampleUrl, targetChar, type, autoSubmit = false) {
+            try {
+                // 1. Cambiar a la pestaña correspondiente
+                switchTab(type);
+
+                // 2. Establecer el carácter objetivo
+                if (type === 'plana') {
+                    const input = document.getElementById('target_char_plana');
+                    if (input) input.value = targetChar || '';
+                } else {
+                    const input = document.getElementById('target_char');
+                    if (input) input.value = targetChar || '';
+                }
+
+                // Resolver URL completa si es relativa
+                const fullUrl = sampleUrl.startsWith('http') ? sampleUrl : `${API_URL}${sampleUrl}`;
+
+                // 3. Descargar la imagen como Blob y crear objeto File
+                const response = await fetch(fullUrl);
+                if (!response.ok) {
+                    throw new Error(`No se pudo obtener la imagen demo (${response.status})`);
+                }
+                const blob = await response.blob();
+                const filename = sampleUrl.split('/').pop().split('?')[0] || 'sample.jpg';
+                const file = new File([blob], decodeURIComponent(filename), { type: blob.type || 'image/jpeg' });
+
+                // 4. Inyectar en el input de archivo mediante DataTransfer
+                const dt = new DataTransfer();
+                dt.items.add(file);
+
+                const inputId = type === 'plana' ? 'file_plana' : 'file_single';
+                const fileInput = document.getElementById(inputId);
+                if (fileInput) {
+                    fileInput.files = dt.files;
+                    if (type === 'plana') {
+                        handleFileChange(fileInput, 'file_plana_label', 'file_plana_text', 'thumb_plana');
+                    } else {
+                        handleFileChange(fileInput, 'file_single_label', 'file_single_text', 'thumb_single');
+                    }
+                }
+
+                // 5. Scroll suave hacia el formulario
+                const targetForm = type === 'plana' ? document.getElementById('form-plana') : document.getElementById('form-single');
+                if (targetForm) {
+                    targetForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+
+                // 6. Si se solicitó autoSubmit, ejecutar evaluación tras pequeña pausa
+                if (autoSubmit) {
+                    setTimeout(() => {
+                        if (type === 'plana') {
+                            const btn = document.getElementById('btn-submit-plana');
+                            if (btn) btn.click();
+                        } else {
+                            const btn = document.getElementById('btn-submit-single');
+                            if (btn) btn.click();
+                        }
+                    }, 250);
+                }
+
+            } catch (err) {
+                console.error("Error al cargar muestra demo:", err);
+                alert(`No se pudo cargar la muestra demo: ${err.message}\nAsegúrate de que la API esté conectada.`);
+            }
+        }
+
+        // ── Filtro de tarjetas de demo ──
+        function filterDemoCards(filterType, btnEl) {
+            document.querySelectorAll('.demo-filter-btn').forEach(b => b.classList.remove('active'));
+            if (btnEl) btnEl.classList.add('active');
+
+            const cards = document.querySelectorAll('.demo-card');
+            cards.forEach(card => {
+                const cardType = card.getAttribute('data-type');
+                if (filterType === 'all' || cardType === filterType) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
         }
 
         function switchTab(tabName) {

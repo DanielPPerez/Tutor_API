@@ -62,13 +62,25 @@ logger = logging.getLogger(__name__)
 
 
 # ═════════════════════════════════════════════════════════════════════════════
-# 1. CARGA DEL MODELO ONNX
+# 1. CARGA DEL MODELO ONNX (LAZY SINGLETON)
 # ═════════════════════════════════════════════════════════════════════════════
 
-session_cls = ort.InferenceSession(
-    config.MOBILENET_MODEL_PATH,
-    providers=['CPUExecutionProvider']
-)
+_session_cls: Optional[ort.InferenceSession] = None
+
+def _get_classifier_session() -> ort.InferenceSession:
+    """Singleton lazy para el clasificador ONNX. Solo se carga cuando se necesita."""
+    global _session_cls
+    if _session_cls is None:
+        logger.info(f"[classifier] Cargando modelo ONNX: {config.MOBILENET_MODEL_PATH}")
+        _session_cls = ort.InferenceSession(
+            config.MOBILENET_MODEL_PATH,
+            providers=['CPUExecutionProvider']
+        )
+        logger.info(f"[classifier] ✓ Modelo cargado en memoria")
+    return _session_cls
+
+# Inicializar al importar el módulo (comportamiento original preservado)
+session_cls = _get_classifier_session()
 
 
 def _load_class_map() -> Dict[int, str]:
